@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Knapp.Coordinate</PackageId>
+    <Title>Knapp Coordinate API</Title>
+    <Version>1.0.1</Version>
+    <Company>Jean Knapp</Company>
+    <Product>Knapp Coordinate API</Product>
+    <Description>The Knapp Coordinate API is a comprehensive library designed to simplify working with coordinate formats in your applications. It provides a wide range of functions and utilities for converting and manipulating coordinates in various formats such as latitude/longitude (DD, DMM, DMS), UTM, and MGRS. Whether you need to convert coordinates between formats, perform distance calculations, or validate coordinate values, the Knapp Coordinate API has you covered. With its intuitive interface and extensive documentation, integrating coordinate functionality into your projects has never been easier. Unlock the power of precise geospatial calculations with the Knapp Coordinate API and streamline your coordinate-related tasks effortlessly.</Description>
+    <Copyright>© 2023 Jean Knapp. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://jeankn.app/products/coordinate-api/</PackageProjectUrl>
+    <PackageIcon>store.png</PackageIcon>
+    <AssemblyVersion></AssemblyVersion>
+    <PackageLicenseFile>LICENCE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Android\android-2p-coordinate\store.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENCE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
