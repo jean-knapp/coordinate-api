@@ -122,6 +122,56 @@ namespace coordinate
         }
 
         /// <summary>
+        /// Determines whether the current Coordinate object is equal to another object.
+        /// Two Coordinate objects are considered equal if their Latitude and Longitude values are equal.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current Coordinate object.</param>
+        /// <returns>true if the specified object is equal to the current Coordinate object; otherwise, false.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is Coordinate)
+            {
+                return Math.Round(Latitude,4) == Math.Round(((Coordinate)obj).Latitude, 4) && Math.Round(Longitude, 4) == Math.Round(((Coordinate)obj).Longitude, 4);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Latitude.GetHashCode() ^ Longitude.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determines whether two Coordinate objects are equal.
+        /// Two Coordinate objects are considered equal if their Latitude and Longitude values are equal.
+        /// </summary>
+        /// <param name="obj1">The first Coordinate object to compare.</param>
+        /// <param name="obj2">The second Coordinate object to compare.</param>
+        /// <returns>true if the two Coordinate objects are equal; otherwise, false.</returns>
+        public static bool operator ==(Coordinate obj1, Coordinate obj2)
+        {
+            if (ReferenceEquals(obj1, obj2))
+                return true;
+
+            if (obj1 is null || obj2 is null)
+                return false;
+
+            return obj1.Equals(obj2);
+        }
+
+        /// <summary>
+        /// Determines whether two Coordinate objects are not equal.
+        /// Two Coordinate objects are considered not equal if their Latitude and Longitude values are not equal.
+        /// </summary>
+        /// <param name="obj1">The first Coordinate object to compare.</param>
+        /// <param name="obj2">The second Coordinate object to compare.</param>
+        /// <returns>true if the two Coordinate objects are not equal; otherwise, false.</returns>
+        public static bool operator !=(Coordinate obj1, Coordinate obj2)
+        {
+            return !(obj1 == obj2);
+        }
+
+        /// <summary>
         /// Converts the latitude and longitude values of the coordinate to radians.
         /// </summary>
         /// <returns>A tuple containing the latitude and longitude values in radians.</returns>

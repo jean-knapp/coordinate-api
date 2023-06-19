@@ -1,4 +1,4 @@
-# coordinate
+# Knapp Coordinate API
 
 The `coordinate` namespace provides classes and utilities for working with geographic coordinates.
 
