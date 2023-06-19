@@ -196,6 +196,9 @@ namespace coordinate
         /// <returns>The distance in meters between the current coordinate and the target coordinate.</returns>
         private double GetSphereDistanceTo(Coordinate target)
         {
+            if (Latitude == target.Latitude && Longitude == target.Longitude)
+                return 0.0;
+
             // The haversine formula is a mathematical formula that is used to calculate distances between two points on the surface of a sphere.
 
             // Haversine formula:
@@ -223,6 +226,9 @@ namespace coordinate
         /// <returns>The distance in meters between the current coordinate and the target coordinate.</returns>
         private double GetWGS84DistanceTo(Coordinate target)
         {
+            if (Latitude == target.Latitude && Longitude == target.Longitude)
+                return 0.0;
+
             // This formula provides a more accurate result than the Haversine formula for calculating
             // distances over long distances on the Earth's surface, taking into account the Earth's
             // oblate ellipsoid shape.
@@ -317,6 +323,9 @@ namespace coordinate
         /// <returns>The bearing in degrees from the current coordinate to the target coordinate.</returns>
         private double GetSphereBearingTo(Coordinate target)
         {
+            if (Latitude == target.Latitude && Longitude == target.Longitude)
+                return 0.0;
+
             var dLon = (target.Longitude - Longitude) * Math.PI / 180;
             var dPhi = Math.Log(Math.Tan(target.Latitude * Math.PI / 180 / 2 + Math.PI / 4) / Math.Tan(Latitude * Math.PI / 180 / 2 + Math.PI / 4));
             if (Math.Abs(dLon) > Math.PI)
@@ -331,6 +340,9 @@ namespace coordinate
         /// <returns>The bearing in degrees from the current coordinate to the target coordinate.</returns>
         private double GetWGS84BearingTo(Coordinate target)
         {
+            if (Latitude == target.Latitude && Longitude == target.Longitude)
+                return 0.0;
+
             double lat1 = Latitude * Math.PI / 180;
             double lon1 = Longitude * Math.PI / 180;
             double lat2 = target.Latitude * Math.PI / 180;
