@@ -19,13 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\Android\android-2p-coordinate\store.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="LICENCE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
