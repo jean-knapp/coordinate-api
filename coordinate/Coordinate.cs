@@ -18,7 +18,7 @@ namespace coordinate
             /// <summary>
             /// Degrees and decimal minutes format.
             /// </summary>
-            DMM,
+            DDM,
 
             /// <summary>
             /// Degrees, minutes, and seconds format.
@@ -99,8 +99,8 @@ namespace coordinate
             {
                 case Format.DD:
                     return new DD(Latitude, Longitude).ToString();
-                case Format.DMM:
-                    return new DMM(Latitude, Longitude).ToString();
+                case Format.DDM:
+                    return new DDM(Latitude, Longitude).ToString();
                 case Format.DMS:
                     return new DMS(Latitude, Longitude).ToString();
                 case Format.UTM:
@@ -504,12 +504,12 @@ namespace coordinate
         }
 
         /// <summary>
-        /// Converts the coordinate to degrees and decimal minutes (DMM) format.
+        /// Converts the coordinate to degrees and decimal minutes (DDM) format.
         /// </summary>
         /// <returns>A new coordinate in degrees and decimal minutes format.</returns>
-        public DMM ToDMM()
+        public DDM ToDDM()
         {
-            return new DMM(Latitude, Longitude);
+            return new DDM(Latitude, Longitude);
         }
 
         /// <summary>

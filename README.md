@@ -34,7 +34,7 @@ Represents a geographic coordinate.
 Represents different coordinate formats.
 
 - `DD`: Decimal degrees format.
-- `DMM`: Degrees and decimal minutes format.
+- `DDM`: Degrees and decimal minutes format.
 - `DMS`: Degrees, minutes, and seconds format.
 - `UTM`: Universal Transverse Mercator (UTM) format.
 - `MGRS`: Military Grid Reference System (MGRS) format.
@@ -54,7 +54,7 @@ namespace YourNamespace
         public static void Main()
         {
             Coordinate coordinate = new Coordinate(40.7128, -74.0060);
-            Console.WriteLine(coordinate.ToString()); // Output: 40.7128°, -74.0060°
+            Console.WriteLine(coordinate.ToString()); // Output: 40.7128ï¿½, -74.0060ï¿½
         }
     }
 }
@@ -64,7 +64,7 @@ You can convert the coordinate to different formats using the ToString method:
 
 ```csharp
 Coordinate coordinate = new Coordinate(40.7128, -74.0060);
-Console.WriteLine(coordinate.ToString(Format.DMM)); // Output: 40° 42.768', -74° 0.360'
+Console.WriteLine(coordinate.ToString(Format.DDM)); // Output: 40ï¿½ 42.768', -74ï¿½ 0.360'
 ```
 
 You can also perform calculations such as getting the distance to a target coordinate:

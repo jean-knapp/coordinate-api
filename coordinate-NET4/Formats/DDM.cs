@@ -5,7 +5,7 @@ namespace coordinate.Formats
     /// <summary>
     /// Represents a coordinate in degree-minute format.
     /// </summary>
-    public class DMM : Coordinate
+    public class DDM : Coordinate
     {
         public override double Latitude
         {
@@ -70,14 +70,14 @@ namespace coordinate.Formats
         /// </summary>
         /// <param name="latitude">The latitude value.</param>
         /// <param name="longitude">The longitude value.</param>
-        public DMM(double latitude, double longitude) : base(latitude, longitude) { }
+        public DDM(double latitude, double longitude) : base(latitude, longitude) { }
 
         /// <summary>
         /// Initializes a coordinate in degree-minute format.
         /// </summary>
         /// <param name="latitude">The latitude value in degree-minute format.</param>
         /// <param name="longitude">The longitude value in degree-minute format.</param>
-        public DMM(string latitude, string longitude) : base(0, 0)
+        public DDM(string latitude, string longitude) : base(0, 0)
         {
             latitude = latitude.ToUpper();
             longitude = longitude.ToUpper();
@@ -182,9 +182,9 @@ namespace coordinate.Formats
         /// Creates a clone of the coordinate object.
         /// </summary>
         /// <returns>A new Coordinate object with the same latitude and longitude values.</returns>
-        public new DMM Clone()
+        public new DDM Clone()
         {
-            return new DMM(0, 0)
+            return new DDM(0, 0)
             {
                 LatitudeCardinal = LatitudeCardinal,
                 LatitudeDegrees = LatitudeDegrees,
