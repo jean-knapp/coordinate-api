@@ -458,7 +458,7 @@ namespace coordinate
                 case Earth.Model.SPHERE:
                     return SphereTranslateTo(bearing, distance);
                 case Earth.Model.WGS84:
-                    throw new NotImplementedException();
+                    return WGS84TranslateTo(bearing, distance);
                 default:
                     throw new ArgumentException("Invalid Earth model specified.", nameof(earthModel));
             }
@@ -481,6 +481,77 @@ namespace coordinate
             double targetLngRadians = lngRadians + Math.Atan2(Math.Sin(headingRadians) * Math.Sin(distance / Earth.EquatorialRadius) * Math.Cos(latRadians), Math.Cos(distance / Earth.EquatorialRadius) - Math.Sin(latRadians) * Math.Sin(targetLatRadians));
 
             return FromRadians(targetLatRadians, targetLngRadians);
+        }
+
+        private Coordinate WGS84TranslateTo(double bearing, double distance)
+        {
+            // Constantes do elipsoide WGS84
+            double a = 6378137.0;                // Semi-eixo maior (metros)
+            double f = 1 / 298.257223563;        // Achatamento
+            double b = (1 - f) * a;              // Semi-eixo menor (metros)
+
+            // Converter graus para radianos
+            double phi1 = Latitude * Math.PI / 180.0;
+            double lambda1 = Longitude * Math.PI / 180.0;
+            double alpha1 = bearing * Math.PI / 180.0;
+
+            // Cálculo das latitudes reduzidas
+            double tanU1 = (1 - f) * Math.Tan(phi1);
+            double U1 = Math.Atan(tanU1);
+
+            // Cálculos iniciais
+            double sigma1 = Math.Atan2(tanU1, Math.Cos(alpha1));
+            double sinAlpha = Math.Cos(U1) * Math.Sin(alpha1);
+            double cosSqAlpha = 1 - sinAlpha * sinAlpha;
+            double uSq = cosSqAlpha * (a * a - b * b) / (b * b);
+
+            // Cálculo dos coeficientes A e B
+            double A = 1 + (uSq / 16384) * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
+            double B = (uSq / 1024) * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
+
+            // Distância angular inicial
+            double sigma = distance / (b * A);
+            double sigmaP;
+            int iterLimit = 100;
+            double sinSigma, cosSigma, cos2SigmaM, deltaSigma;
+
+            // Iteração para calcular sigma
+            do
+            {
+                sinSigma = Math.Sin(sigma);
+                cosSigma = Math.Cos(sigma);
+                cos2SigmaM = Math.Cos(2 * sigma1 + sigma);
+                deltaSigma = B * sinSigma * (cos2SigmaM + (B / 4) * (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)
+                             - (B / 6) * cos2SigmaM * (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
+                sigmaP = sigma;
+                sigma = distance / (b * A) + deltaSigma;
+            }
+            while (Math.Abs(sigma - sigmaP) > 1e-12 && (--iterLimit > 0));
+
+            if (iterLimit == 0)
+            {
+                throw new Exception("O algoritmo não convergiu");
+            }
+
+            // Cálculo das coordenadas finais
+            double tmp = Math.Sin(U1) * sinSigma - Math.Cos(U1) * cosSigma * Math.Cos(alpha1);
+            double phi2 = Math.Atan2(Math.Sin(U1) * cosSigma + Math.Cos(U1) * sinSigma * Math.Cos(alpha1),
+                                     (1 - f) * Math.Sqrt(sinAlpha * sinAlpha + tmp * tmp));
+            double lambda = Math.Atan2(sinSigma * Math.Sin(alpha1),
+                                       Math.Cos(U1) * cosSigma - Math.Sin(U1) * sinSigma * Math.Cos(alpha1));
+            double C = (f / 16) * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
+            double L = lambda - (1 - C) * f * sinAlpha *
+                       (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
+            double lambda2 = lambda1 + L;
+
+            // Converter radianos para graus
+            double lat2 = phi2 * 180 / Math.PI;
+            double lon2 = lambda2 * 180 / Math.PI;
+
+            // Ajuste da longitude para o intervalo [-180°, 180°]
+            lon2 = (lon2 + 540) % 360 - 180; // Normaliza para o intervalo [-180°, 180°]
+
+            return new Coordinate(lat2, lon2);
         }
 
         /// <summary>
